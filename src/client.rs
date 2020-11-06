@@ -17,10 +17,7 @@ pub struct HttpParser {
 
 impl ParserHandler for HttpParser {
     fn on_header_field(&mut self, bytes: &[u8]) -> bool {
-        self.headers.borrow_mut().insert(
-            self.current_key.clone().unwrap(),
-            from_utf8(bytes).unwrap().to_string(),
-        );
+        self.current_key = Some(from_utf8(bytes).unwrap().to_string());
 
         true
     }
