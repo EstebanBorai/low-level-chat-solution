@@ -1,15 +1,16 @@
 use mio::{self, tcp::*};
 use std::net::SocketAddr;
 
-mod web_socket_server;
+mod client;
+mod security;
+mod server;
 
 fn main() {
     let address = "0.0.0.0:4200".parse::<SocketAddr>().unwrap();
     let server_socket = TcpListener::bind(&address).unwrap();
-    let mut event_loop: mio::EventLoop<web_socket_server::WebSocketServer> =
-        mio::EventLoop::new().unwrap();
+    let mut event_loop: mio::EventLoop<server::WebSocketServer> = mio::EventLoop::new().unwrap();
 
-    let mut server = web_socket_server::WebSocketServer::new(server_socket);
+    let mut server = server::WebSocketServer::new(server_socket);
 
     event_loop
         .register(
